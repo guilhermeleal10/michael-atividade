@@ -63,14 +63,20 @@ const steps = [
 
 export default function Dashboard() {
   const [counts, setCounts] = useState([0, 0, 0, 0]);
+  const [hasLoadError, setHasLoadError] = useState(false);
 
   useEffect(() => {
-    Promise.all(
+    Promise.allSettled(
       ["/eventos", "/turmas", "/estudantes", "/pesquisas"].map((path) =>
         api.get(path)
       )
-    ).then((responses) => {
-      setCounts(responses.map((response) => response.data.length));
+    ).then((results) => {
+      setCounts((currentCounts) =>
+        results.map((result, index) =>
+          result.status === "fulfilled" ? result.value.data.length : currentCounts[index]
+        )
+      );
+      setHasLoadError(results.some((result) => result.status === "rejected"));
     });
   }, []);
 
@@ -80,6 +86,12 @@ export default function Dashboard() {
         title="Visão geral"
         description="Acompanhe os dados e organize suas pesquisas de campo."
       />
+
+      {hasLoadError && (
+        <div className="error" role="status">
+          Alguns dados não puderam ser carregados. Atualize a página para tentar novamente.
+        </div>
+      )}
 
       <section className="dashboard-welcome">
         <div>

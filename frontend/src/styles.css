@@ -65,11 +65,20 @@ button:hover {
   transform: translateY(-1px);
   border-color: var(--green-dark);
   background: var(--green-dark);
-  box-shadow: 0 7px 15px rgba(200, 208, 39, 0.615);
+  box-shadow: 0 7px 15px rgb(40 107 64 / 22%);
 }
 
 button:active {
   transform: translateY(0);
+}
+
+button:disabled,
+button:disabled:hover {
+  transform: none;
+  border-color: #a7b8aa;
+  background: #a7b8aa;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 button:focus-visible,
@@ -1019,5 +1028,192 @@ tbody tr:hover {
   .workflow-step {
     min-height: 145px;
     padding: 13px;
+  }
+}
+
+.theme-toggle {
+  width: 100%;
+  min-height: 38px;
+  justify-content: flex-start;
+  margin-top: 16px;
+  border-color: rgb(199 224 212 / 28%);
+  background: transparent;
+  box-shadow: none;
+  color: #d9e9e2;
+  font-size: 13px;
+}
+
+.theme-toggle:hover {
+  border-color: rgb(199 224 212 / 48%);
+  background: rgb(255 255 255 / 7%);
+  box-shadow: none;
+}
+
+.theme-toggle span {
+  width: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.login-theme-toggle {
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  right: 20px;
+  width: auto;
+  margin: 0;
+  padding-inline: 13px;
+  border-color: #d9e4de;
+  background: rgb(255 255 255 / 80%);
+  color: #34483b;
+}
+
+.login-theme-toggle:hover {
+  border-color: #b8cdbb;
+  background: #fff;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e3eee6;
+  --muted: #a6b8aa;
+  --green: #53a66a;
+  --green-dark: #398650;
+  --line: #34483a;
+  --surface: #202d25;
+  --page: #151e18;
+  --sidebar: #102c1c;
+  --sidebar-muted: #a9c4ae;
+  --shadow: 0 12px 32px rgb(0 0 0 / 20%);
+  background: var(--page);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(ellipse at 88% 0%, rgb(39 75 48 / 35%), transparent 30rem),
+    var(--page);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  border-color: #405447;
+  background: #1b2820;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] label {
+  color: #c8d8cc;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .workflow,
+html[data-theme="dark"] .dashboard-live {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .stats .card::after {
+  background: #293c2e;
+}
+
+html[data-theme="dark"] .row {
+  border-color: #34483a;
+}
+
+html[data-theme="dark"] th {
+  background: #29392e;
+  color: #bacabd;
+}
+
+html[data-theme="dark"] td {
+  border-color: #34483a;
+  color: #c8d8cc;
+}
+
+html[data-theme="dark"] tbody tr:hover {
+  background: #26372b;
+}
+
+html[data-theme="dark"] .login {
+  background:
+    radial-gradient(ellipse at 15% 15%, rgb(39 75 48 / 42%), transparent 30rem),
+    radial-gradient(ellipse at 90% 90%, rgb(31 62 39 / 38%), transparent 32rem),
+    var(--page);
+}
+
+html[data-theme="dark"] .login form {
+  border-color: #34483a;
+  background: rgb(32 45 37 / 96%);
+}
+
+html[data-theme="dark"] .dashboard {
+  --ink: #e3eee6;
+  --muted: #a6b8aa;
+  --line: #34483a;
+  --surface: #202d25;
+  --dashboard-accent: #79c287;
+  --dashboard-accent-dark: #9bd4a4;
+}
+
+html[data-theme="dark"] .dashboard-live {
+  color: #c3d3c7;
+}
+
+html[data-theme="dark"] .workflow {
+  background: rgb(32 45 37 / 94%);
+}
+
+html[data-theme="dark"] .workflow-step {
+  border-color: #3a5040;
+  background: #202d25;
+}
+
+html[data-theme="dark"] .workflow-step:hover {
+  border-color: #588262;
+  background: #293b2e;
+}
+
+html[data-theme="dark"] .dashboard-stat {
+  background: var(--surface);
+}
+
+html[data-theme="dark"] .stat-coral,
+html[data-theme="dark"] .stat-violet,
+html[data-theme="dark"] .stat-amber,
+html[data-theme="dark"] .stat-blue {
+  --stat-color: #91d19b;
+  --stat-tint: #2c4432;
+}
+
+html[data-theme="dark"] .danger,
+html[data-theme="dark"] button.danger {
+  border-color: #70433c;
+  background: #452b28;
+  color: #ffb9a9;
+}
+
+html[data-theme="dark"] .login-theme-toggle {
+  border-color: #405447;
+  background: #202d25;
+  color: #d9e9e2;
+}
+
+@media (max-width: 760px) {
+  .shell aside .theme-toggle {
+    width: auto;
+    align-self: flex-start;
+    margin-top: 10px;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .bottom button {
+    grid-column: 3;
   }
 }
