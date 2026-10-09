@@ -1,13 +1,30 @@
 # Sistema de Monitoramento de Eventos
 
 Projeto completo em uma única raiz, dividido em `backend` e `frontend`.
-Docker não é utilizado.
 
 ## Requisitos
 - Node.js 20+
 - PostgreSQL 14+
 - PostgreSQL em `localhost:5432`
 - banco `monitoramento_eventos`
+- Docker com Docker Compose (opcional)
+
+## Execução com Docker Compose
+
+Na raiz do projeto, execute:
+
+```powershell
+docker compose -f backend/docker_compose.yml up
+```
+
+O Compose inicia o PostgreSQL, o backend e o frontend. Na primeira inicialização,
+o backend aplica as migrations e carrega os dados iniciais. Acesse
+http://localhost:5173. Para parar os serviços, use `Ctrl+C`; para removê-los,
+execute:
+
+```powershell
+docker compose -f backend/docker_compose.yml down
+```
 
 ## Instalação
 ```powershell

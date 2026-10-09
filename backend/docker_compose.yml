@@ -1,0 +1,65 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: monitoramento_eventos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d monitoramento_eventos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+    image: monitoramento-eventos-backend:local
+    restart: unless-stopped
+    working_dir: /workspace/backend
+    command: >
+      sh -c "npm ci &&
+      npx prisma generate &&
+      npx prisma migrate deploy &&
+      npm run db:seed &&
+      npm run dev"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/monitoramento_eventos?schema=public
+      JWT_SECRET: ${JWT_SECRET:-local-dev-only-change-me}
+      PORT: 3000
+      FRONTEND_URL: http://localhost:5173
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ..:/workspace
+      - backend_node_modules:/workspace/backend/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: node:20-bookworm-slim
+    restart: unless-stopped
+    working_dir: /workspace/frontend
+    command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
+    environment:
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ..:/workspace
+      - frontend_node_modules:/workspace/frontend/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  backend_node_modules:
+  frontend_node_modules:
